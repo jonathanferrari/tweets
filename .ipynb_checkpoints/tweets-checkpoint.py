@@ -12,10 +12,10 @@ st.title('Politics and Twitter')
 
 
 
-
-key, secret_key = (os.getenv(i) for i in ["TWEET_KEY", "TWEET_SECRET_KEY"])
-auth = tw.OAuthHandler(key, secret_key)
-api = tw.API(auth, wait_on_rate_limit=True)
+def do_tweepy_auth():
+    key, secret_key = (os.getenv(i) for i in ["TWEET_KEY", "TWEET_SECRET_KEY"])
+    auth = tw.OAuthHandler(key, secret_key)
+    api = tw.API(auth, wait_on_rate_limit=True)
 
 
 # ### Airtable
