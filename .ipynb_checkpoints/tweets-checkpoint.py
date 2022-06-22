@@ -1,7 +1,7 @@
 # ## Imports & `.env` Setup
 
 
-import pandas as pd, numpy as np, tweepy as tw, streamlit as st, requests, os, dotenv, json
+import pandas as pd, numpy as np, streamlit as st, requests, os, dotenv, json
 dotenv.load_dotenv();
 st.title('Politics and Twitter')
 
@@ -68,7 +68,6 @@ def get(query = None, table = "tweets"):
     response = requests.request("GET", sheet, headers=headers)
     data = [{"id" : record["id"]} | record["fields"] for record in eval(response.text)["records"]]
     frame = pd.DataFrame(data)
-    print("Got it!")
     return frame
 
 

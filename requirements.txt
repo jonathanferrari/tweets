@@ -1,0 +1,8 @@
+pandas
+numpy
+tweepy
+streamlit
+requests
+os
+dotenv
+json

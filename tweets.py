@@ -1,7 +1,7 @@
 # ## Imports & `.env` Setup
 
 
-import pandas as pd, numpy as np, tweepy as tw, streamlit as st, requests, os, dotenv, json
+import pandas as pd, numpy as np, streamlit as st, requests, os, dotenv, json
 dotenv.load_dotenv();
 st.title('Politics and Twitter')
 
