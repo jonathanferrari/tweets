@@ -2,5 +2,5 @@ pandas
 numpy
 streamlit
 requests
-dotenv
+python-dotenv
 json
