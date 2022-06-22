@@ -3,4 +3,3 @@ numpy
 streamlit
 requests
 python-dotenv
-json
