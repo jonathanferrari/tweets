@@ -88,11 +88,12 @@ def update(username, table = "tweets", step = 1):
 
 def getUser(username):
     return api.search_users(username, count = 1)
-def getTimeline(username):
-    tweets = api.search_tweets(username, count = 10000)
-    cleanTweets = [tweet for tweet in tweets if tweet.user._json["screen_name"] == username]
+def getTimeline(username, n = 100000):
+    tweets = api.search_tweets(username, count = n)
+    cleanTweets = [tweet._json["text"] for tweet in tweets if tweet.user._json["screen_name"] == username]
     return cleanTweets
 
 
 if st.button("Show data"):
     st.write(get())
+    
