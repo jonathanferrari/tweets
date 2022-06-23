@@ -1,7 +1,10 @@
 # ## Imports & `.env` Setup
 
 
-import pandas as pd, numpy as np, streamlit as st, requests, os, dotenv, json
+import pandas as pd, numpy as np, tweepy as tw, streamlit as st
+import requests, os, dotenv, json, IPython.display
+from hashlib import *
+from IPython.display import *
 dotenv.load_dotenv();
 st.title('Politics and Twitter')
 
@@ -48,7 +51,12 @@ def getTweets(search, method = "search_tweets", n = 50):
     # return frm[["text", "user"]]
 
 
-
+def getUser(username):
+    return api.search_users(username, count = 1)
+def getTimeline(username, n = 100000):
+    tweets = api.search_tweets(username, count = n)
+    cleanTweets = [tweet._json["text"] for tweet in tweets if tweet.user._json["screen_name"] == username]
+    return cleanTweets
 
 
 def post(data, table = "ratings"):
@@ -81,19 +89,32 @@ def update(username, table = "tweets", step = 1):
     response = requests.request("PATCH", sheet, headers=headers, data=json.dumps(new_record))
     return response
 
+# ### App
+
+def showRandomTweets():
+    tweets = get()
+    selected = tweets.sample(1).iloc[0, :]
+    selectedTweets, selectedUser = selected[[f"tweet{i+1}" for i in range(10)]], selected["user"]
+    selectedTweets = "\n".join(["### •" + t for t in selectedTweets])
+    return selectedTweets, selectedUser
+
+def hash(obj):
+    return sha1(obj.encode("utf-8")).hexdigest()
 
 # # Work
 
 
-
-def getUser(username):
-    return api.search_users(username, count = 1)
-def getTimeline(username, n = 100000):
-    tweets = api.search_tweets(username, count = n)
-    cleanTweets = [tweet._json["text"] for tweet in tweets if tweet.user._json["screen_name"] == username]
-    return cleanTweets
-
+tweets, user = showRandomTweets()
 
 if st.button("Show data"):
     st.write(get())
     
+st.write()
+    
+nme = st.text_input(label = "Your Name", placeholder = "John Appleseed")
+rater = hash(nme)
+
+st.write(tweets)
+
+rating = st.radio(label = "Rate the user above", options = ["Republican", "Democrat", "I don't know"], index = 2)
+
