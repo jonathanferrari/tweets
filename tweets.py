@@ -1,7 +1,7 @@
 # ## Imports & `.env` Setup
 
 
-import pandas as pd, numpy as np, tweepy as tw, streamlit as st
+import pandas as pd, numpy as np, streamlit as st
 import requests, os, dotenv, json, IPython.display
 from hashlib import *
 from IPython.display import *
