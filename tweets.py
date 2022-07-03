@@ -2,7 +2,7 @@
 
 
 import pandas as pd, numpy as np, streamlit as st
-import requests, os, dotenv, json, IPython.display
+import requests, os, dotenv, json
 from hashlib import *
 from IPython.display import *
 dotenv.load_dotenv();
@@ -12,13 +12,6 @@ st.title('Politics and Twitter')
 # ## Load Secret Variables
 
 # ### Twitter
-
-
-
-def do_tweepy_auth():
-    key, secret_key = (os.getenv(i) for i in ["TWEET_KEY", "TWEET_SECRET_KEY"])
-    auth = tw.OAuthHandler(key, secret_key)
-    api = tw.API(auth, wait_on_rate_limit=True)
 
 
 # ### Airtable
@@ -58,6 +51,7 @@ def getTimeline(username, n = 100000):
     cleanTweets = [tweet._json["text"] for tweet in tweets if tweet.user._json["screen_name"] == username]
     return cleanTweets
 
+# ### AirTable
 
 def post(data, table = "ratings"):
     """Add data to the Airtable."""
@@ -106,7 +100,7 @@ def hash(obj):
 
 tweets, user = showRandomTweets()
 
-if st.button("Show data"):
+if st.checkbox("Show data"):
     st.write(get())
     
 st.write()
