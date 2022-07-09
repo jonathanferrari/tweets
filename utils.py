@@ -31,6 +31,13 @@ def post(data, table = "ratings"):
     response = requests.request("POST", sheet, headers=headers, data=json.dumps(data))
     return response
 
+def makeRecord(columns, values):
+    """Create AirTable record"""
+    assert len(columns) == len(values), "must have same number of columns and values"
+    return {"records": [{"fields":{ col : val for col, val in zip(columns, values)}}]}
+    
+def poster(columns, table):
+    return lambda *values: post(data = makeRecord(columns, [*values]), table = table)
 
 def get(query = None, table = "tweets"):
     """Retrieve Tweet Data"""
@@ -57,8 +64,25 @@ def update(username, table = "tweets", step = 1):
 ### App Functions ###
 #####################
 
+def getCounts(t1 = "tweets", t2= "ratings"):
+    tweets, rates = get(table  = t1), get(table = t2)
+    if rates.shape == (0, 0):
+        return pd.DataFrame({"user" : tweets.user, "count": np.zeros(len(tweets.user))}).sort_values(by="count")
+    users, rated = tweets.user, rates.rated
+    dta = {usr : sum(rated == usr) for usr in users}
+    return pd.DataFrame({"user": dta.keys(), "count":dta.values()}).sort_values(by="count")
 
+getLeastRated = lambda: getCounts().iloc[:, 0].iloc[0]
+    
 
+def showTweets():
+    tweets = get()
+    selected = tweets.query(f"user  == '{getLeastRated()}'").iloc[0, :]
+    selectedTweets, selectedUser = selected[[f"tweet{i+1}" for i in range(10)]], selected["user"]
+    selectedTweets = "\n".join(["### •" + t for t in selectedTweets])
+    return selectedTweets, selectedUser
+    
+    
 def showRandomTweets():
     tweets = get()
     selected = tweets.sample(1).iloc[0, :]
