@@ -1,4 +1,7 @@
 # tweets
-political analysis of twitter users and their connections
+> by [Jonathan Ferrari](https://jonathanferrari.com)
 
-In Progress [web app](https://share.streamlit.io/jonathanferrari/tweets/main/tweets.py)
+Political analysis of Twitter users and their connections
+
+
+In Progress [Streamlit web app](https://share.streamlit.io/jonathanferrari/tweets/main/tweets.py)
